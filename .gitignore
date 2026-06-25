@@ -2,3 +2,5 @@ node_modules/
 .env
 src/data/store.local.json
 *.log
+
+.DS_Store
