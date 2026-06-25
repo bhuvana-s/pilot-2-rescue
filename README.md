@@ -29,10 +29,19 @@ Bedrock model access for Nova Pro must be enabled for your account/region.
 
 ## Architecture
 
+![Architecture](docs/architecture.png)
+
+Bedrock Nova Pro is **real in both modes**; only the data layer swaps. The
+`store.js` swap point routes to the in-memory **mock** store (`USE_REAL_ATLAS=false`)
+or **MongoDB Atlas + Vector Search** (`USE_REAL_ATLAS=true`).
+
 ```
 problemText → embed() → store.vectorSearchPatterns() → attach recommendations
             → Bedrock Nova Pro (Converse, strict-JSON) → persist rescueLog
 ```
+
+> Regenerate the diagram: `pip install diagrams` (needs Graphviz `dot`), then
+> `python docs/architecture.py`.
 
 Collections (mock + Atlas share the same shapes): `pilotProfiles`,
 `failurePatterns`, `recommendations`, `rescueLogs`.
