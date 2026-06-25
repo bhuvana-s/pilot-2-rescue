@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Enterprise AI Pilot Rescue Kit</title>
+  <style>
+    :root {
+      --bg: #0f1117; --panel: #171a23; --panel2: #1f2430; --line: #2a3040;
+      --text: #e6e8ee; --muted: #9aa3b2; --accent: #5b8cff; --accent2: #7c5cff;
+      --high: #ff5d5d; --medium: #ffb44d; --low: #4dd4a0; --ok: #4dd4a0;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: radial-gradient(1200px 600px at 80% -10%, #1a2030, var(--bg)); color: var(--text);
+      min-height: 100vh;
+    }
+    .wrap { max-width: 980px; margin: 0 auto; padding: 32px 20px 80px; }
+    header h1 { margin: 0 0 4px; font-size: 26px; letter-spacing: .2px; }
+    header p { margin: 0 0 24px; color: var(--muted); }
+    .pill { display:inline-block; font-size:12px; padding:3px 9px; border-radius:999px; border:1px solid var(--line); color:var(--muted); }
+    .pill.ok { color: var(--ok); border-color: #285c46; }
+    .pill.bad { color: var(--high); border-color: #5c2828; }
+    .card { background: var(--panel); border: 1px solid var(--line); border-radius: 14px; padding: 20px; margin-bottom: 18px; }
+    label { display:block; font-size:13px; color: var(--muted); margin: 0 0 6px; }
+    textarea, input, select {
+      width: 100%; background: var(--panel2); border: 1px solid var(--line); color: var(--text);
+      border-radius: 10px; padding: 11px 12px; font-size: 14px; font-family: inherit;
+    }
+    textarea { min-height: 110px; resize: vertical; }
+    .row { display:flex; gap: 12px; flex-wrap: wrap; margin-top: 12px; }
+    .row > div { flex: 1; min-width: 160px; }
+    button {
+      margin-top: 16px; background: linear-gradient(90deg, var(--accent), var(--accent2));
+      color: white; border: none; border-radius: 10px; padding: 12px 20px; font-size: 15px;
+      font-weight: 600; cursor: pointer;
+    }
+    button:disabled { opacity: .6; cursor: default; }
+    h2 { font-size: 18px; margin: 4px 0 14px; }
+    h3 { font-size: 14px; color: var(--muted); text-transform: uppercase; letter-spacing: .6px; margin: 18px 0 10px; }
+    .match { display:flex; align-items:center; justify-content:space-between; gap:10px; padding:10px 12px; background:var(--panel2); border:1px solid var(--line); border-radius:10px; margin-bottom:8px; }
+    .match .name { font-weight:600; }
+    .match .meta { font-size:12px; color:var(--muted); }
+    .score { font-variant-numeric: tabular-nums; font-size:12px; color:var(--accent); }
+    .item { padding:12px 14px; background:var(--panel2); border:1px solid var(--line); border-left-width:4px; border-radius:10px; margin-bottom:10px; }
+    .item .t { font-weight:600; margin-bottom:4px; }
+    .item .d { color: var(--muted); font-size:13.5px; }
+    .tags { margin-top:8px; display:flex; gap:6px; flex-wrap:wrap; }
+    .tag { font-size:11px; padding:2px 8px; border-radius:999px; border:1px solid var(--line); color:var(--muted); }
+    .sev-high { border-left-color: var(--high); } .sev-medium { border-left-color: var(--medium); } .sev-low { border-left-color: var(--low); }
+    .muted { color: var(--muted); }
+    .hidden { display:none; }
+    .spinner { display:inline-block; width:14px; height:14px; border:2px solid rgba(255,255,255,.4); border-top-color:#fff; border-radius:50%; animation:spin .7s linear infinite; vertical-align:-2px; margin-right:8px; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .hist { font-size:13px; padding:10px 12px; border-bottom:1px solid var(--line); }
+    .hist:last-child { border-bottom:none; }
+    .err { color: var(--high); }
+    .conf { font-size:13px; color:var(--muted); margin-top:6px; }
+    a.refresh { color: var(--accent); font-size:13px; cursor:pointer; text-decoration:none; float:right; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <h1>🛟 Enterprise AI Pilot Rescue Kit</h1>
+      <p>Describe a stalled or failing AI pilot. We match known failure patterns and have Amazon Bedrock Nova Pro diagnose root causes + fixes.</p>
+      <span id="health" class="pill">checking…</span>
+    </header>
+
+    <div class="card">
+      <label for="problem">What's going wrong with your AI pilot?</label>
+      <textarea id="problem" placeholder="e.g. Our support copilot demoed great but agents stopped using it after 3 weeks and leadership can't see any ROI..."></textarea>
+      <div class="row">
+        <div>
+          <label for="industry">Industry (optional)</label>
+          <input id="industry" placeholder="e.g. Financial Services" />
+        </div>
+        <div>
+          <label for="useCase">Use case (optional)</label>
+          <input id="useCase" placeholder="e.g. Customer support copilot" />
+        </div>
+        <div>
+          <label for="stage">Stage (optional)</label>
+          <select id="stage">
+            <option value="">—</option>
+            <option>proof-of-concept</option>
+            <option>pilot</option>
+            <option>post-pilot</option>
+            <option>blocked</option>
+            <option>scaling</option>
+          </select>
+        </div>
+      </div>
+      <button id="go">Diagnose</button>
+      <div id="error" class="err hidden" style="margin-top:12px;"></div>
+    </div>
+
+    <div id="results" class="card hidden">
+      <h2>Diagnosis <span id="conf" class="conf"></span></h2>
+
+      <h3>Matched failure patterns</h3>
+      <div id="matches"></div>
+
+      <h3>Root causes</h3>
+      <div id="causes"></div>
+
+      <h3>Recommendations</h3>
+      <div id="recs"></div>
+    </div>
+
+    <div class="card">
+      <h2>History <a class="refresh" id="refreshHist">refresh</a></h2>
+      <div id="history" class="muted">loading…</div>
+    </div>
+  </div>
+
+  <script>
+    const $ = (id) => document.getElementById(id);
+
+    async function loadHealth() {
+      try {
+        const r = await fetch('/api/health');
+        const h = await r.json();
+        const el = $('health');
+        const ok = h.bedrock === 'ok';
+        el.className = 'pill ' + (ok ? 'ok' : 'bad');
+        el.textContent = `store: ${h.store} · ${h.region} · ${h.model} · bedrock: ${h.bedrock}`;
+        if (h.bedrockError) el.title = h.bedrockError;
+      } catch (e) {
+        $('health').textContent = 'health check failed';
+      }
+    }
+
+    function sevClass(s) { return 'sev-' + (['high','medium','low'].includes(s) ? s : 'medium'); }
+
+    function renderResults(data) {
+      $('results').classList.remove('hidden');
+      const d = data.diagnosis || {};
+      $('conf').textContent = (typeof d.confidence === 'number')
+        ? `· confidence ${(d.confidence * 100).toFixed(0)}%` + (d.fallback ? ' (fallback)' : '')
+        : '';
+
+      $('matches').innerHTML = (data.matchedPatterns || []).map(p => `
+        <div class="match">
+          <div><span class="name">${esc(p.name)}</span> <span class="meta">— ${esc(p.severity || '')}</span></div>
+          <span class="score">match ${(p.score || 0).toFixed(3)}</span>
+        </div>`).join('') || '<div class="muted">no matches</div>';
+
+      $('causes').innerHTML = (d.rootCauses || []).map(c => `
+        <div class="item ${sevClass(c.severity)}">
+          <div class="t">${esc(c.cause)}</div>
+          <div class="d">${esc(c.evidence || '')}</div>
+          <div class="tags"><span class="tag">severity: ${esc(c.severity || 'n/a')}</span></div>
+        </div>`).join('') || '<div class="muted">none</div>';
+
+      $('recs').innerHTML = (d.recommendations || []).map(r => `
+        <div class="item">
+          <div class="t">${esc(r.action)}</div>
+          <div class="d">${esc(r.rationale || '')}</div>
+          <div class="tags">
+            <span class="tag">effort: ${esc(r.effort || 'n/a')}</span>
+            <span class="tag">impact: ${esc(r.impact || 'n/a')}</span>
+          </div>
+        </div>`).join('') || '<div class="muted">none</div>';
+    }
+
+    function esc(s) { return String(s == null ? '' : s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
+
+    async function diagnose() {
+      const problemText = $('problem').value.trim();
+      $('error').classList.add('hidden');
+      if (!problemText) { showError('Please describe the problem first.'); return; }
+      const btn = $('go');
+      btn.disabled = true;
+      btn.innerHTML = '<span class="spinner"></span>Diagnosing…';
+      try {
+        const r = await fetch('/api/diagnose', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            problemText,
+            industry: $('industry').value.trim() || undefined,
+            useCase: $('useCase').value.trim() || undefined,
+            stage: $('stage').value || undefined,
+          }),
+        });
+        const data = await r.json();
+        if (!r.ok) throw new Error(data.error || 'request failed');
+        renderResults(data);
+        loadHistory();
+        $('results').scrollIntoView({ behavior: 'smooth' });
+      } catch (e) {
+        showError(e.message);
+      } finally {
+        btn.disabled = false;
+        btn.textContent = 'Diagnose';
+      }
+    }
+
+    function showError(msg) { const el = $('error'); el.textContent = msg; el.classList.remove('hidden'); }
+
+    async function loadHistory() {
+      try {
+        const r = await fetch('/api/history?limit=10');
+        const { logs } = await r.json();
+        $('history').innerHTML = (logs && logs.length)
+          ? logs.map(l => `<div class="hist">
+              <strong>${esc((l.matchedPatternKeys || []).join(', ') || '—')}</strong>
+              <span class="muted">· ${new Date(l.createdAt).toLocaleString()}</span><br>
+              <span class="muted">${esc((l.problemText || '').slice(0, 120))}${(l.problemText||'').length>120?'…':''}</span>
+            </div>`).join('')
+          : '<div class="muted">No diagnoses yet.</div>';
+      } catch (e) {
+        $('history').innerHTML = '<div class="err">failed to load history</div>';
+      }
+    }
+
+    $('go').addEventListener('click', diagnose);
+    $('refreshHist').addEventListener('click', loadHistory);
+    loadHealth();
+    loadHistory();
+  </script>
+</body>
+</html>

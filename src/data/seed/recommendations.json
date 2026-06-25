@@ -1,0 +1,31 @@
+[
+  { "patternKey": "low_adoption", "action": "Embed the AI into the existing daily workflow instead of a separate tool", "rationale": "Adoption follows the path of least resistance; meeting users where they already work removes friction", "effort": "medium", "impact": "high" },
+  { "patternKey": "low_adoption", "action": "Run a 2-week guided onboarding with in-context nudges and a usage dashboard", "rationale": "Habit formation needs reinforcement; visible nudges and metrics sustain engagement past the novelty period", "effort": "low", "impact": "medium" },
+
+  { "patternKey": "unclear_roi", "action": "Define 2-3 baseline KPIs before relaunch (e.g. handle time, deflection rate, cost per ticket)", "rationale": "You cannot show ROI you never measured; a baseline makes value provable to leadership", "effort": "low", "impact": "high" },
+  { "patternKey": "unclear_roi", "action": "Instrument the pilot to capture before/after metrics automatically", "rationale": "Automatic measurement produces a defensible business case at budget-renewal time", "effort": "medium", "impact": "high" },
+
+  { "patternKey": "poor_data_quality", "action": "Profile and clean the top data sources feeding the model before retraining", "rationale": "Output quality is bounded by input quality; cleaning upstream lifts every downstream result", "effort": "high", "impact": "high" },
+  { "patternKey": "poor_data_quality", "action": "Add a retrieval layer over a curated, governed knowledge base instead of raw data", "rationale": "Grounding on a vetted source reduces the blast radius of dirty data", "effort": "medium", "impact": "high" },
+
+  { "patternKey": "governance_block", "action": "Bring security, legal, and compliance into the next sprint as co-owners", "rationale": "Early co-ownership turns blockers into requirements and unblocks the path to production", "effort": "low", "impact": "high" },
+  { "patternKey": "governance_block", "action": "Add input/output guardrails and PII redaction with an audit log", "rationale": "Concrete controls address the specific risks reviewers cite and create an audit trail", "effort": "medium", "impact": "medium" },
+
+  { "patternKey": "scope_creep", "action": "Cut scope to one bounded use case with a written definition of done", "rationale": "A narrow, finishable target converges; an unbounded one never ships", "effort": "low", "impact": "high" },
+  { "patternKey": "scope_creep", "action": "Freeze requirements for the next iteration and queue everything else", "rationale": "A requirements freeze stops the moving target that prevents completion", "effort": "low", "impact": "medium" },
+
+  { "patternKey": "latency_cost", "action": "Right-size the model and add caching for repeated queries", "rationale": "Most production cost and latency comes from over-large models and redundant calls", "effort": "medium", "impact": "high" },
+  { "patternKey": "latency_cost", "action": "Set a per-request token budget and stream responses", "rationale": "Budgets cap spend and streaming improves perceived latency without infra changes", "effort": "low", "impact": "medium" },
+
+  { "patternKey": "hallucination_trust", "action": "Ground answers in retrieved sources and cite them in the UI", "rationale": "Citations let users verify, which rebuilds trust and reduces unchecked errors", "effort": "medium", "impact": "high" },
+  { "patternKey": "hallucination_trust", "action": "Add confidence thresholds that defer low-confidence answers to a human", "rationale": "Routing uncertain cases to a human prevents the visible failures that erode trust", "effort": "medium", "impact": "high" },
+
+  { "patternKey": "change_resistance", "action": "Recruit an executive sponsor and a frontline champion per team", "rationale": "Visible sponsorship and peer advocacy overcome cultural resistance faster than mandates", "effort": "low", "impact": "high" },
+  { "patternKey": "change_resistance", "action": "Communicate explicitly how roles change and reskill, not replace", "rationale": "Naming the fear directly and showing the upside reduces quiet sabotage", "effort": "low", "impact": "medium" },
+
+  { "patternKey": "integration_gap", "action": "Scope the last-mile integration (CRM/ERP/auth) as a first-class workstream", "rationale": "Production value is unlocked only when the tool is wired into systems of record", "effort": "high", "impact": "high" },
+  { "patternKey": "integration_gap", "action": "Stand up a thin production-grade API and auth layer early", "rationale": "An early integration spine de-risks the prototype-to-production jump", "effort": "medium", "impact": "medium" },
+
+  { "patternKey": "wrong_use_case", "action": "Re-select the use case by value x feasibility, anchored to a real user pain", "rationale": "A high-value, feasible use case is the single biggest predictor of pilot success", "effort": "low", "impact": "high" },
+  { "patternKey": "wrong_use_case", "action": "Validate demand with 5 target users before further build", "rationale": "Direct user validation prevents investing further in a low-need use case", "effort": "low", "impact": "medium" }
+]

@@ -1,0 +1,14 @@
+[
+  {
+    "industry": "Financial Services",
+    "useCase": "Customer support copilot",
+    "stage": "post-pilot",
+    "problemText": "Our support copilot demoed well but agents stopped using it within a few weeks and leadership cannot see any ROI."
+  },
+  {
+    "industry": "Healthcare",
+    "useCase": "Clinical document summarization",
+    "stage": "blocked",
+    "problemText": "Compliance and legal flagged privacy risks and we have no approval to move the summarization pilot to production."
+  }
+]

@@ -1,0 +1,72 @@
+[
+  {
+    "key": "low_adoption",
+    "name": "Low User Adoption",
+    "severity": "high",
+    "signals": ["great demos but reps stopped using it", "usage dropped after launch", "no daily engagement", "users prefer old workflow", "ignored by employees"],
+    "description": "The pilot launched but real users disengaged. The tool was not woven into daily workflows, onboarding was thin, and there was no habit-forming loop, so usage decayed after the initial novelty."
+  },
+  {
+    "key": "unclear_roi",
+    "name": "Unclear ROI / Value",
+    "severity": "high",
+    "signals": ["leadership cant see ROI", "no business case", "cannot justify budget", "no metrics defined", "value not measured"],
+    "description": "Success was never tied to a measurable business outcome. With no baseline or KPI defined up front, leadership cannot quantify return and the pilot stalls when budget renewal time comes."
+  },
+  {
+    "key": "poor_data_quality",
+    "name": "Poor Data Quality",
+    "severity": "high",
+    "signals": ["dirty data", "incomplete records", "inconsistent data", "data in silos", "no ground truth", "garbage in garbage out"],
+    "description": "The model is fed incomplete, inconsistent, or siloed data. Output quality tracks input quality, so unreliable data undermines trust regardless of model capability."
+  },
+  {
+    "key": "governance_block",
+    "name": "Governance & Compliance Blockers",
+    "severity": "medium",
+    "signals": ["legal blocked it", "compliance concerns", "privacy risk", "no approval to go to production", "PII exposure", "regulatory uncertainty"],
+    "description": "Security, legal, or compliance review was engaged too late. Unresolved privacy, audit, and policy questions prevent the pilot from reaching production."
+  },
+  {
+    "key": "scope_creep",
+    "name": "Scope Creep / Unclear Requirements",
+    "severity": "medium",
+    "signals": ["scope kept expanding", "tried to do everything", "requirements unclear", "boil the ocean", "no clear definition of done"],
+    "description": "The pilot tried to solve too much at once with shifting, ambiguous requirements. Without a bounded scope and definition of done, it never converges to a shippable result."
+  },
+  {
+    "key": "latency_cost",
+    "name": "Latency & Cost at Scale",
+    "severity": "medium",
+    "signals": ["too slow", "high latency", "token costs too high", "expensive at scale", "performance degrades under load"],
+    "description": "The solution worked in a demo but response times and per-request cost become untenable at production volume, so it cannot scale economically."
+  },
+  {
+    "key": "hallucination_trust",
+    "name": "Hallucination & Trust Erosion",
+    "severity": "high",
+    "signals": ["model makes things up", "inaccurate answers", "confidently wrong", "users dont trust it", "factual errors"],
+    "description": "The model produces confident but incorrect output. A few visible errors erode user trust permanently, and without grounding or guardrails users stop relying on it."
+  },
+  {
+    "key": "change_resistance",
+    "name": "Change-Management Resistance",
+    "severity": "medium",
+    "signals": ["employees resist", "fear of job loss", "no executive sponsor", "cultural pushback", "no champion"],
+    "description": "The human side was neglected. Without an executive sponsor, internal champions, and clear communication about how roles change, staff resist and quietly undermine the rollout."
+  },
+  {
+    "key": "integration_gap",
+    "name": "Integration & Production Gap",
+    "severity": "medium",
+    "signals": ["cant connect to CRM", "legacy system integration", "stuck in prototype", "no path to production", "infrastructure not ready"],
+    "description": "The prototype lives in isolation and cannot be wired into existing systems (CRM, ERP, data pipelines). The last-mile engineering to reach production was underestimated."
+  },
+  {
+    "key": "wrong_use_case",
+    "name": "Poor Use-Case Fit",
+    "severity": "high",
+    "signals": ["solution looking for a problem", "chasing shiny AI", "wrong problem", "no real user need", "narrow demo only"],
+    "description": "The pilot was chosen for novelty rather than a real, high-value user need. The use case is a poor fit for the technology, so even a technically successful build delivers little value."
+  }
+]
